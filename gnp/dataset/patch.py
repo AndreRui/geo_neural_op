@@ -112,6 +112,10 @@ class PatchGenerator:
         
         self.current_idx = 0
         self.data = data.copy()
+        for k, v in self.data.items():
+            if isinstance(v, torch.Tensor):
+                self.data[k] = v.cpu()
+        
         self.x = self.data.get('x').squeeze(0)
         self.graph_radius = graph_radius
         self.batch_size = batch_size
@@ -120,7 +124,7 @@ class PatchGenerator:
         self.tree = KDTree(self.x.cpu().numpy())
         self.center = center
         self.knn = knn
-        self.min_radius = torch.tensor(min_radius, device=self.device)
+        self.min_radius = torch.tensor(min_radius)
         self.centers = self.get_centers()
         self.max_num_neighbors = max_num_neighbors
         
@@ -138,7 +142,7 @@ class PatchGenerator:
         knn_dist, self.knn_ind = self.tree.query(
             self.center_data.cpu().numpy(), k=self.knn, eps=0.05
             )
-        self.knn_dist = torch.from_numpy(knn_dist[:, -1]).to(self.device)
+        self.knn_dist = torch.from_numpy(knn_dist[:, -1])
 
         if not hasattr(self, 'clusters'):
             self.clusters = tg.nn.knn(self.center_data, self.x, k=1)[1].squeeze()
@@ -173,20 +177,20 @@ class PatchGenerator:
             
             knn_dist, self.knn_ind = self.tree.query(self.x.cpu()[centers].numpy(), 
                                                           k=self.knn)
-            self.knn_dist = torch.from_numpy(knn_dist[:, -1]).to(self.device)
+            self.knn_dist = torch.from_numpy(knn_dist[:, -1])
             
             clusters = torch.zeros(self.x.shape[0], dtype=torch.long)
             arange = torch.arange(self.knn_ind.shape[0])
             for j in range(self.knn_ind.shape[1]-1, -1, -1):
                 clusters[self.knn_ind[:, j]] = arange
-            self.clusters = clusters.to(self.device)
+            self.clusters = clusters
             
         elif self.center == 'gmls':
             centers = torch.arange(self.x.shape[0])
             knn_dist, self.knn_ind = self.tree.query(self.x.cpu().numpy(), 
                                                           k=self.knn)
-            self.knn_dist = torch.from_numpy(knn_dist[:, -1]).to(self.device)
-            self.clusters = centers.clone().to(self.device)
+            self.knn_dist = torch.from_numpy(knn_dist[:, -1])
+            self.clusters = centers.clone()
             
         return centers
     
@@ -227,12 +231,11 @@ class PatchGenerator:
             torch_geometric Data object containing the patch and all the associated data.
         """        
         
-        eval_patch_idx = torch.tensor(self.patch_idx[idx], device=self.device)
-        buffer_patch_idx = torch.tensor(self.buffer_idx[idx], device=self.device)
+        eval_patch_idx = torch.tensor(self.patch_idx[idx])
+        buffer_patch_idx = torch.tensor(self.buffer_idx[idx])
         
         extra_patch_idx = torch.tensor([x for x in buffer_patch_idx 
-                                        if x not in eval_patch_idx], 
-                                       device=self.device)
+                                        if x not in eval_patch_idx])
 
         patch_idx = torch.cat((eval_patch_idx, extra_patch_idx)).long()
         
@@ -255,7 +258,7 @@ class PatchGenerator:
         data.cluster_mask = cluster_mask
         data.ind = patch_idx
 
-        return data.to(self.device)
+        return data
 
     def __iter__(self):
         return self
@@ -273,9 +276,9 @@ class PatchGenerator:
             pca_mapper = PCABatch(num_graphs=batch.num_graphs,
                                   degree=self.degree,
                                   min_z_scale=self.min_z_scale)
-            return pca_mapper.to_pca(batch)
+            return pca_mapper.to_pca(batch).to(self.device)
         else:
-            return batch
+            return batch.to(self.device)
 
 
 class PatchLoader:
