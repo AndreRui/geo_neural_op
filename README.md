@@ -21,8 +21,15 @@ data-processing pipelines.  Pretrained models are also provided for estimating
 curvatures, Laplace-Beltrami operators, components for PDE solvers, and other
 geometric tasks.
 
-Examples are included that demonstrate how GNPs can be used.  This includes (i)
-to estimate geometric properties, such as the metric and curvatures of
+**Robust Processing:** Our pre-trained GNP models and training methods also allow for 
+coping with noise and other artifacts that arise when processing point-clouds in practice.
+This allows for robust estimates of the curvature and other geometric properties even when 
+point-clouds have artifacts, such as outliers as shown below. 
+<p align="left">
+<img src="https://github.com/atzberg/geo_neural_op/blob/main/images/docs/point_cloud_outliers.png" width="40%"> 
+</p>
+
+**Examples:** We provide practical demonstrations for how GNPs can be used in practice.  This includes examples (i) to estimate geometric properties, such as the metric and curvatures of
 surfaces, (ii) to approximate solutions of geometric partial differential
 equations (PDEs) on manifolds, and (iii) to perform curvature-driven flows of
 shapes. These results show a few ways GNPs can be used for incorporating the
