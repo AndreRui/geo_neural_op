@@ -26,7 +26,7 @@ coping with noise and other artifacts that arise when processing point-clouds in
 This allows for robust estimates of the curvature and other geometric properties even when 
 point-clouds have artifacts, such as outliers as shown below. 
 <p align="left">
-<img src="https://github.com/atzberg/geo_neural_op/blob/main/images/docs/point_cloud_outliers.png" width="40%"> 
+<img src="https://github.com/atzberg/geo_neural_op/blob/main/images/docs/point_cloud_outliers.png" width="60%"> 
 </p>
 
 **Examples:** We provide practical demonstrations for how GNPs can be used in practice.  This includes examples (i) to estimate geometric properties, such as the metric and curvatures of
