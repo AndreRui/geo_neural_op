@@ -49,7 +49,7 @@ You may also need to first install `pip`,
 conda install pip 
 ```
 
-For use of the package see the [examples folder](https://github.com/atzberg/geo_neural_op__staging/tree/main/examples).  
+For use of the package see the [examples folder](https://github.com/atzberg/geo_neural_op/tree/main/examples).  
 More information on the structure of the package also can be found on the
 [documentation pages](https://web.math.ucsb.edu/~atzberg/geo_neural_op_docs/html/index.html).
 
