@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>gnp.dataset module &mdash; Geometric Neural Operator 0.0.1 documentation</title>
+  <title>gnp.dataset module &mdash; Geometric Neural Operators (GNPs) 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0ea5f55c"></script>
+      <script src="_static/documentation_options.js?v=09236e2c"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -32,7 +32,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            Geometric Neural Operator
+            Geometric Neural Operators (GNPs)
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -49,24 +49,26 @@
 <li class="toctree-l1"><a class="reference internal" href="gnp.geometry.html">gnp.geometry module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">gnp.dataset module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-gnp.dataset.patch">gnp.dataset.patch</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#gnp.dataset.patch.PatchGenerator"><code class="docutils literal notranslate"><span class="pre">PatchGenerator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchGenerator.get_centers"><code class="docutils literal notranslate"><span class="pre">PatchGenerator.get_centers()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchGenerator.get_patch"><code class="docutils literal notranslate"><span class="pre">PatchGenerator.get_patch()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchGenerator.get_patch_indices"><code class="docutils literal notranslate"><span class="pre">PatchGenerator.get_patch_indices()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gnp.dataset.patch.PatchData"><code class="docutils literal notranslate"><span class="pre">PatchData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchData.batch_iterator"><code class="docutils literal notranslate"><span class="pre">PatchData.batch_iterator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchData.num_patches"><code class="docutils literal notranslate"><span class="pre">PatchData.num_patches</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#gnp.dataset.patch.PatchLoader"><code class="docutils literal notranslate"><span class="pre">PatchLoader</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#gnp.dataset.patch.graph_from_dict"><code class="docutils literal notranslate"><span class="pre">graph_from_dict()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-gnp.dataset.pca">gnp.dataset.pca</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#gnp.dataset.pca.PCABatch"><code class="docutils literal notranslate"><span class="pre">PCABatch</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.pca.PCABatch.to_pca"><code class="docutils literal notranslate"><span class="pre">PCABatch.to_pca()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#gnp.dataset.pca.PCAPatch"><code class="docutils literal notranslate"><span class="pre">PCAPatch</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.pca.PCAPatch.initialize"><code class="docutils literal notranslate"><span class="pre">PCAPatch.initialize()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.pca.PCAPatch.to_pca"><code class="docutils literal notranslate"><span class="pre">PCAPatch.to_pca()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor"><code class="docutils literal notranslate"><span class="pre">PatchTensor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.as_patch_data"><code class="docutils literal notranslate"><span class="pre">PatchTensor.as_patch_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.get_centers"><code class="docutils literal notranslate"><span class="pre">PatchTensor.get_centers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.get_gmls_centers"><code class="docutils literal notranslate"><span class="pre">PatchTensor.get_gmls_centers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.get_test_centers"><code class="docutils literal notranslate"><span class="pre">PatchTensor.get_test_centers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.get_train_centers"><code class="docutils literal notranslate"><span class="pre">PatchTensor.get_train_centers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.local_coordinates"><code class="docutils literal notranslate"><span class="pre">PatchTensor.local_coordinates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.local_coordinates_original"><code class="docutils literal notranslate"><span class="pre">PatchTensor.local_coordinates_original</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.pca_vectors"><code class="docutils literal notranslate"><span class="pre">PatchTensor.pca_vectors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.scaling"><code class="docutils literal notranslate"><span class="pre">PatchTensor.scaling</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.tensor_centered"><code class="docutils literal notranslate"><span class="pre">PatchTensor.tensor_centered</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.tensor_local"><code class="docutils literal notranslate"><span class="pre">PatchTensor.tensor_local</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.x_local"><code class="docutils literal notranslate"><span class="pre">PatchTensor.x_local</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.xy_scale"><code class="docutils literal notranslate"><span class="pre">PatchTensor.xy_scale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnp.dataset.patch.PatchTensor.z_scale"><code class="docutils literal notranslate"><span class="pre">PatchTensor.z_scale</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -84,7 +86,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Geometric Neural Operator</a>
+          <a href="index.html">Geometric Neural Operators (GNPs)</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -107,195 +109,207 @@
 <section id="module-gnp.dataset.patch">
 <span id="gnp-dataset-patch"></span><h2>gnp.dataset.patch<a class="headerlink" href="#module-gnp.dataset.patch" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="gnp.dataset.patch.PatchGenerator">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gnp.dataset.patch.</span></span><span class="sig-name descname"><span class="pre">PatchGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tree'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_patches</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pca</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_z_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_num_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchGenerator" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>PatchLoader class that generates patches from a point cloud.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>dict</em>) -- Point cloud data. Must include keys 'x' for point cloud and
-'normals' which must have the correct orientation of the pointcloud.
-The normals do not need to be accurate other than the orientation.</p></li>
-<li><p><strong>graph_radius</strong> (<em>float</em>) -- Radius for graph construction.</p></li>
-<li><p><strong>batch_size</strong> (<em>int</em><em>, </em><em>optional</em>) -- Batch size. Defaults to 1.</p></li>
-<li><p><strong>center</strong> (<em>str</em><em>, </em><em>optional</em>) -- Method for choosing patch centers. If 'tree', a KDTree is used to ensure patches
-completely cover the point cloud. If 'gmls', there is one patch for every point
-in the data. Defaults to 'tree'.</p></li>
-<li><p><strong>shuffle_patches</strong> (<em>bool</em><em>, </em><em>optional</em>) -- Whether to shuffle patches. Defaults to True.</p></li>
-<li><p><strong>knn</strong> (<em>int</em><em>, </em><em>optional</em>) -- Number of neighbors to choose for patch construction. Defaults to 50.</p></li>
-<li><p><strong>min_radius</strong> (<em>float</em><em>, </em><em>optional</em>) -- Minimum patch radius. Defaults to 0.01.</p></li>
-<li><p><strong>pca</strong> (<em>bool</em><em>, </em><em>optional</em>) -- If True, returns patch in local PCA coordinates. Defaults to True.</p></li>
-<li><p><strong>degree</strong> (<em>int</em><em>, </em><em>optional</em>) -- Maximum degree of 1D Legendre basis if pca is True. Defaults to 3.</p></li>
-<li><p><strong>orientation</strong> (<em>Optional</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) -- Orientation used if pca is True. Defaults to None.</p></li>
-<li><p><strong>scale</strong> (<em>bool</em><em>, </em><em>optional</em>) -- If True, scaling is used if pca is also True. Defaults to True.</p></li>
-<li><p><strong>include_scale</strong> (<em>bool</em><em>, </em><em>optional</em>) -- If True, includes scale in the output. Defaults to True.</p></li>
-<li><p><strong>min_z_scale</strong> (<em>float</em><em>, </em><em>optional</em>) -- Minimum scale used in pca rescaling. Defaults to 1e-3.</p></li>
-<li><p><strong>max_num_neighbors</strong> (<em>int</em><em>, </em><em>optional</em>) -- Maximum neighbors used in graph construction. Defaults to 32.</p></li>
-<li><p><strong>device</strong> (<em>str</em><em>, </em><em>optional</em>) -- Device to use. Defaults to 'cpu'.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="gnp.dataset.patch.PatchGenerator.get_centers">
-<span class="sig-name descname"><span class="pre">get_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LongTensor</span></span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchGenerator.get_centers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchGenerator.get_centers" title="Link to this definition"></a></dt>
-<dd><p>Choose the centers of the patches.
-If <cite>self.center</cite> is 'tree', the centers are chosen so that there is sufficient
-coverage of the data. If <cite>self.center</cite> is 'gmls', there is one patch center
-:returns: Indices of the patch centers.
-:rtype: torch.LongTensor</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="gnp.dataset.patch.PatchGenerator.get_patch">
-<span class="sig-name descname"><span class="pre">get_patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Data</span></span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchGenerator.get_patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchGenerator.get_patch" title="Link to this definition"></a></dt>
-<dd><p>Returns a single patch in the form of a torch_geometric Data object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>idx</strong> (<em>int</em>) -- Index of the patch to return.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>torch_geometric Data object containing the patch and all the associated data.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Data</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="gnp.dataset.patch.PatchGenerator.get_patch_indices">
-<span class="sig-name descname"><span class="pre">get_patch_indices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchGenerator.get_patch_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchGenerator.get_patch_indices" title="Link to this definition"></a></dt>
-<dd><p>Returns indices of the patches and buffer regions.
-:returns:</p>
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchData">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gnp.dataset.patch.</span></span><span class="sig-name descname"><span class="pre">PatchData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></p>
 <blockquote>
-<div><dl class="simple">
-<dt>patch_idx<span class="classifier">list of int</span></dt><dd><p>List of indices of the patches.</p>
-</dd>
-<dt>buffer_idx<span class="classifier">list of int</span></dt><dd><p>List of indices of the buffer regions.</p>
-</dd>
-</dl>
+<div><p>A PyTorch Geometric Data object specialized for patch-based point cloud data.</p>
 </div></blockquote>
+<p>This class extends the base <cite>Data</cite> object to include patch-specific
+attributes and a utility for iterating over batches of patches.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchData.batch_iterator">
+<span class="sig-name descname"><span class="pre">batch_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchData.batch_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchData.batch_iterator" title="Link to this definition"></a></dt>
+<dd><p>Create a generator to iterate over batches of patches.</p>
+<p>This method yields smaller <cite>PatchData</cite> objects, each containing a subset
+of the patches. It assumes that the patch data is sorted by <cite>patch_number</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple of list of int</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch_size</strong> (<em>int</em>) -- The maximum number of patches in each batch.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>PatchData</em> -- A new <cite>PatchData</cite> object representing a batch of patches.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchData.num_patches">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_patches</span></span><a class="headerlink" href="#gnp.dataset.patch.PatchData.num_patches" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of patches in the dataset.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="gnp.dataset.patch.PatchLoader">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gnp.dataset.patch.</span></span><span class="sig-name descname"><span class="pre">PatchLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tree'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_patches</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pca</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_z_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_num_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchLoader" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gnp.dataset.patch.</span></span><span class="sig-name descname"><span class="pre">PatchTensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'test'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pca</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_z_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'legendre'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_training_patches</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>PatchLoader class that outputs a PatchGenerator instance when given PCD data.</p>
-<dl class="simple">
-<dt>Parameters</dt><dd><dl class="simple">
-<dt>graph_radius<span class="classifier">float</span></dt><dd><p>Radius for graph construction.</p>
-</dd>
-<dt>batch_size<span class="classifier">int, optional</span></dt><dd><p>Batch size. Defaults to 1.</p>
-</dd>
-<dt>center<span class="classifier">str, optional</span></dt><dd><p>Method for choosing patch centers. If 'tree', a KDTree is used to ensure patches
-completely cover the point cloud. If 'gmls', there is one patch for every point
-in the data. Defaults to 'tree'.</p>
-</dd>
-<dt>shuffle_patches<span class="classifier">bool, optional</span></dt><dd><p>Whether to shuffle patches. Defaults to True.</p>
-</dd>
-<dt>knn<span class="classifier">int, optional</span></dt><dd><p>Number of neighbors to choose for patch construction. Defaults to 50.</p>
-</dd>
-<dt>min_radius<span class="classifier">float, optional</span></dt><dd><p>Minimum patch radius. Defaults to 0.01.</p>
-</dd>
-<dt>pca<span class="classifier">bool, optional</span></dt><dd><p>If True, returns patch in local PCA coordinates. Defaults to True.</p>
-</dd>
-<dt>degree<span class="classifier">int, optional</span></dt><dd><p>Maximum degree of 1D Legendre basis if pca is True. Defaults to 3.</p>
-</dd>
-<dt>min_z_scale<span class="classifier">float, optional</span></dt><dd><p>Minimum scale used in pca rescaling. Defaults to 1e-3.</p>
-</dd>
-<dt>max_num_neighbors<span class="classifier">int, optional</span></dt><dd><p>Maximum neighbors used in graph construction. Defaults to 32.</p>
-</dd>
-<dt>device<span class="classifier">str, optional</span></dt><dd><p>Device to use. Defaults to 'cpu'.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="gnp.dataset.patch.graph_from_dict">
-<span class="sig-prename descclassname"><span class="pre">gnp.dataset.patch.</span></span><span class="sig-name descname"><span class="pre">graph_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_num_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/patch.html#graph_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.graph_from_dict" title="Link to this definition"></a></dt>
-<dd><p>Construct a graph from a dictionary of node features and other data.</p>
+<p>Processes a point cloud into a collection of overlapping patches.</p>
+<p>This class handles the entire pipeline of patchifying a point cloud. It
+selects patch centers, finds neighboring points for each patch, computes
+local coordinate systems using PCA, and scales the coordinates. The final
+output is a <cite>PatchData</cite> object ready for use in a model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sample</strong> (<em>dict</em>) -- Dictionary containing the node features and other data.</p></li>
-<li><p><strong>radius</strong> (<em>float</em>) -- Radius for the radius graph.</p></li>
-<li><p><strong>max_num_neighbors</strong> (<em>int</em><em>, </em><em>optional</em>) -- Maximum number of neighbors per node. Defaults to 32.</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) -- A dictionary containing the point cloud data, requires at least an
+'x' key with a tensor of shape (N, 3).</p></li>
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) -- Number of nearest neighbors to consider for various calculations,
+by default 30.</p></li>
+<li><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) -- The mode for center selection ('train', 'test', or 'gmls'),
+by default &quot;test&quot;.</p></li>
+<li><p><strong>pca</strong> (<em>bool</em><em>, </em><em>optional</em>) -- Whether to use PCA to determine local coordinate systems,
+by default True.</p></li>
+<li><p><strong>scale</strong> (<em>bool</em><em>, </em><em>optional</em>) -- Whether to scale the local coordinates, by default True.</p></li>
+<li><p><strong>min_z_scale</strong> (<em>float</em><em>, </em><em>optional</em>) -- The minimum value for z-scaling, by default 5e-3.</p></li>
+<li><p><strong>basis</strong> (<em>str</em><em>, </em><em>optional</em>) -- The basis to use, by default &quot;legendre&quot;.</p></li>
+<li><p><strong>basis_degree</strong> (<em>int</em><em>, </em><em>optional</em>) -- The degree of the basis, by default 3.</p></li>
+<li><p><strong>num_training_patches</strong> (<em>int</em><em>, </em><em>optional</em>) -- Number of patches to sample in 'train' mode, by default 1024.</p></li>
+<li><p><strong>device</strong> (<em>str</em><em>, </em><em>optional</em>) -- The device to perform computations on, by default &quot;cpu&quot;.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A graph data object containing node features, edge indices, and edge attributes.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch_geometric.data.Data</p>
-</dd>
 </dl>
-</dd></dl>
-
-</section>
-<section id="module-gnp.dataset.pca">
-<span id="gnp-dataset-pca"></span><h2>gnp.dataset.pca<a class="headerlink" href="#module-gnp.dataset.pca" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="gnp.dataset.pca.PCABatch">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gnp.dataset.pca.</span></span><span class="sig-name descname"><span class="pre">PCABatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_graphs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/pca.html#PCABatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.pca.PCABatch" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class for handling multiple PCA patches.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="gnp.dataset.pca.PCABatch.to_pca">
-<span class="sig-name descname"><span class="pre">to_pca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Batch</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Batch</span></span></span><a class="reference internal" href="_modules/gnp/dataset/pca.html#PCABatch.to_pca"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.pca.PCABatch.to_pca" title="Link to this definition"></a></dt>
-<dd><p>Convert the input batch to PCA basis.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>Batch</em>) -- Input batch of data.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Batch of data in PCA basis.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Batch</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="gnp.dataset.pca.PCAPatch">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gnp.dataset.pca.</span></span><span class="sig-name descname"><span class="pre">PCAPatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_z_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/pca.html#PCAPatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.pca.PCAPatch" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="gnp.dataset.pca.PCAPatch.initialize">
-<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/dataset/pca.html#PCAPatch.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.pca.PCAPatch.initialize" title="Link to this definition"></a></dt>
-<dd><p>Initialize the PCA basis for the input patch</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) -- Dictionary containing the input patch data</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="gnp.dataset.pca.PCAPatch.to_pca">
-<span class="sig-name descname"><span class="pre">to_pca</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Data</span></span></span><a class="reference internal" href="_modules/gnp/dataset/pca.html#PCAPatch.to_pca"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.pca.PCAPatch.to_pca" title="Link to this definition"></a></dt>
-<dd><p>Perform change of coordinates to local PCA basis for input patch.</p>
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.as_patch_data">
+<span class="sig-name descname"><span class="pre">as_patch_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gnp.dataset.patch.PatchData" title="gnp.dataset.patch.PatchData"><span class="pre">PatchData</span></a></span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor.as_patch_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.as_patch_data" title="Link to this definition"></a></dt>
+<dd><p>Assemble and return the final <cite>PatchData</cite> object.</p>
+<p>This method collects all computed attributes (patch indices, local
+coordinates, PCA vectors, etc.) and any additional data from the input
+dictionary into a single <cite>PatchData</cite> object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Data object of patch in PCA basis.</p>
+<dd class="field-odd"><p>The fully processed patch data object.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Data</p>
+<dd class="field-even"><p><a class="reference internal" href="#gnp.dataset.patch.PatchData" title="gnp.dataset.patch.PatchData">PatchData</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.get_centers">
+<span class="sig-name descname"><span class="pre">get_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor.get_centers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.get_centers" title="Link to this definition"></a></dt>
+<dd><p>Dispatch method to get patch centers based on the current mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple containing:
+- The indices of the center points.
+- The cluster assignment for each point in the cloud.
+- The k-NN distance for each center, used to determine patch radius.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[torch.Tensor, torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.get_gmls_centers">
+<span class="sig-name descname"><span class="pre">get_gmls_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor.get_gmls_centers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.get_gmls_centers" title="Link to this definition"></a></dt>
+<dd><p>Select every point as a patch center for GMLS.</p>
+<p>In GMLS mode, a patch is centered at every single point in the cloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Center indices, cluster assignments, and k-NN distances.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[torch.Tensor, torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.get_test_centers">
+<span class="sig-name descname"><span class="pre">get_test_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor.get_test_centers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.get_test_centers" title="Link to this definition"></a></dt>
+<dd><p>Select patch centers using a greedy covering strategy for testing.</p>
+<p>This method iterates through shuffled points and selects a point as a
+center if it's not already covered by an existing patch, effectively
+creating a set of patches that cover the entire point cloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Center indices, cluster assignments, and k-NN distances.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[torch.Tensor, torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.get_train_centers">
+<span class="sig-name descname"><span class="pre">get_train_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor.get_train_centers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.get_train_centers" title="Link to this definition"></a></dt>
+<dd><p>Select patch centers by random sampling for training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Center indices, cluster assignments (dummy), and k-NN distances.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[torch.Tensor, torch.Tensor, torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.local_coordinates">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local_coordinates</span></span><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.local_coordinates" title="Link to this definition"></a></dt>
+<dd><p>The scaled local coordinates of points within their respective patches.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.local_coordinates_original">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local_coordinates_original</span></span><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.local_coordinates_original" title="Link to this definition"></a></dt>
+<dd><p>The scaled local coordinates of the 'original' points.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.pca_vectors">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pca_vectors</span></span><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.pca_vectors" title="Link to this definition"></a></dt>
+<dd><p>The PCA vectors (local basis) for each patch.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.scaling">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scaling</span></span><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.scaling" title="Link to this definition"></a></dt>
+<dd><p>The combined (x, y, z) scaling vector for each patch.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.tensor_centered">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tensor_centered</span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor.tensor_centered"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.tensor_centered" title="Link to this definition"></a></dt>
+<dd><p>Dense tensor of patch points, centered by subtracting the patch mean.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tensor of shape (num_patches, max_points_in_patch, 3).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.tensor_local">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tensor_local</span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor.tensor_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.tensor_local" title="Link to this definition"></a></dt>
+<dd><p>Dense tensor of patch points in local coordinates.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.x_local">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x_local</span></span><a class="reference internal" href="_modules/gnp/dataset/patch.html#PatchTensor.x_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.x_local" title="Link to this definition"></a></dt>
+<dd><p>All points transformed into the local coordinate system of their assigned patch.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.xy_scale">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xy_scale</span></span><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.xy_scale" title="Link to this definition"></a></dt>
+<dd><p>The xy-plane scaling factor for each patch.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gnp.dataset.patch.PatchTensor.z_scale">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z_scale</span></span><a class="headerlink" href="#gnp.dataset.patch.PatchTensor.z_scale" title="Link to this definition"></a></dt>
+<dd><p>The z-axis scaling factor for each patch.</p>
 </dd></dl>
 
 </dd></dl>
@@ -317,7 +331,7 @@ in the data. Defaults to 'tree'.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Blaine Quackenbush, Paul J. Atzberger.</p>
+    <p>&#169; Copyright 2026, Blaine Quackenbush, Paul J. Atzberger.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

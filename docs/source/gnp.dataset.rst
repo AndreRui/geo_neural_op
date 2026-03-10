@@ -9,13 +9,6 @@ gnp.dataset.patch
    :undoc-members:
    :show-inheritance:
 
-gnp.dataset.pca
-----------------------
-
-.. automodule:: gnp.dataset.pca
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Module contents
 ---------------

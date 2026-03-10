@@ -16,10 +16,10 @@ print("sys.path:", sys.path)  # Debug output to make sure your path is correct
 
 
 
-project = 'Geometric Neural Operator'
-copyright = '2025, Blaine Quackenbush, Paul J. Atzberger'
+project = 'Geometric Neural Operators (GNPs)'
+copyright = '2026, Blaine Quackenbush, Paul J. Atzberger'
 author = 'Blaine Quackenbush, Paul J. Atzberger'
-release = '0.0.1'
+release = '2.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

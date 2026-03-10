@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>utils.py &mdash; Geometric Neural Operator 0.0.1 documentation</title>
+  <title>utils.py &mdash; Geometric Neural Operators (GNPs) 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0ea5f55c"></script>
+      <script src="_static/documentation_options.js?v=09236e2c"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -32,7 +32,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            Geometric Neural Operator
+            Geometric Neural Operators (GNPs)
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -49,6 +49,11 @@
 <li class="toctree-l1"><a class="reference internal" href="gnp.geometry.html">gnp.geometry module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gnp.dataset.html">gnp.dataset module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">utils.py</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gnp.utils.QueryTorchGeometric"><code class="docutils literal notranslate"><span class="pre">QueryTorchGeometric</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gnp.utils.QueryTorchGeometric.query_knn"><code class="docutils literal notranslate"><span class="pre">QueryTorchGeometric.query_knn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gnp.utils.QueryTorchGeometric.query_radius"><code class="docutils literal notranslate"><span class="pre">QueryTorchGeometric.query_radius()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#gnp.utils.smooth_values_by_gaussian"><code class="docutils literal notranslate"><span class="pre">smooth_values_by_gaussian()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gnp.utils.subsample_points_by_radius"><code class="docutils literal notranslate"><span class="pre">subsample_points_by_radius()</span></code></a></li>
 </ul>
@@ -62,7 +67,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Geometric Neural Operator</a>
+          <a href="index.html">Geometric Neural Operators (GNPs)</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -82,22 +87,89 @@
              
   <section id="module-gnp.utils">
 <span id="utils-py"></span><h1>utils.py<a class="headerlink" href="#module-gnp.utils" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="gnp.utils.smooth_values_by_gaussian">
-<span class="sig-prename descclassname"><span class="pre">gnp.utils.</span></span><span class="sig-name descname"><span class="pre">smooth_values_by_gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/gnp/utils.html#smooth_values_by_gaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.utils.smooth_values_by_gaussian" title="Link to this definition"></a></dt>
-<dd><p>Smooth values by a truncated Gaussian kernel over a given radius. This is used
-in simulating mean curvature flow.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="gnp.utils.QueryTorchGeometric">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gnp.utils.</span></span><span class="sig-name descname"><span class="pre">QueryTorchGeometric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gnp/utils.html#QueryTorchGeometric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.utils.QueryTorchGeometric" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A wrapper for performing k-nearest neighbor and radius queries on a point
+cloud using PyTorch Geometric.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>torch.Tensor</em>) -- Input data points</p></li>
-<li><p><strong>values</strong> (<em>torch.Tensor</em>) -- Values to be smoothed</p></li>
-<li><p><strong>radius</strong> (<em>float</em>) -- Radius for truncating the Gaussian kernel. The standard deviation
-of the Gaussian is set to one third of the radius.</p></li>
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) -- The point cloud data to be queried, of shape (N, D).</p></li>
+<li><p><strong>device</strong> (<em>str</em><em>, </em><em>optional</em>) -- The device to store the point cloud on, by default &quot;cpu&quot;.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="gnp.utils.QueryTorchGeometric.query_knn">
+<span class="sig-name descname"><span class="pre">query_knn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gnp/utils.html#QueryTorchGeometric.query_knn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.utils.QueryTorchGeometric.query_knn" title="Link to this definition"></a></dt>
+<dd><p>Find the k-nearest neighbors for a set of query points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>queries</strong> (<em>torch.Tensor</em>) -- The query points, of shape (M, D).</p></li>
+<li><p><strong>k</strong> (<em>int</em>) -- The number of nearest neighbors to find.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Smoothed values</p>
+<dd class="field-even"><p>A tuple containing:
+- The distances to the k-nearest neighbors, shape (M, k).
+- The indices of the k-nearest neighbors, shape (M, k).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gnp.utils.QueryTorchGeometric.query_radius">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">query_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_num_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gnp/utils.html#QueryTorchGeometric.query_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.utils.QueryTorchGeometric.query_radius" title="Link to this definition"></a></dt>
+<dd><p>Find all points in <cite>x</cite> within a given radius of points in <cite>y</cite>.</p>
+<p>This method finds all pairs (i, j) such that the distance between
+x[i] and y[j] is less than the radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) -- The point cloud to search within (the &quot;haystack&quot;).</p></li>
+<li><p><strong>y</strong> (<em>torch.Tensor</em>) -- The query points (the &quot;needles&quot;).</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) -- The search radius.</p></li>
+<li><p><strong>max_num_neighbors</strong> (<em>int</em><em>, </em><em>optional</em>) -- The maximum number of neighbors to return for each query point,
+by default 100.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing:
+- <cite>index_x</cite>: Indices of the found points in <cite>x</cite>.
+- <cite>index_y</cite>: Indices of the corresponding query points in <cite>y</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gnp.utils.smooth_values_by_gaussian">
+<span class="sig-prename descclassname"><span class="pre">gnp.utils.</span></span><span class="sig-name descname"><span class="pre">smooth_values_by_gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/gnp/utils.html#smooth_values_by_gaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.utils.smooth_values_by_gaussian" title="Link to this definition"></a></dt>
+<dd><p>Smooth values on a point cloud using a truncated Gaussian kernel.</p>
+<p>For each point, this function computes a weighted average of the values of
+its neighbors within a given radius. The weights are determined by a
+Gaussian function of the distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) -- The input data points, shape (N, D).</p></li>
+<li><p><strong>values</strong> (<em>torch.Tensor</em>) -- The values associated with each point to be smoothed, shape (N,).</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) -- The truncation radius for the Gaussian kernel. The standard deviation
+of the Gaussian is set to one-third of this radius.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of shape (N,) containing the smoothed values.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>torch.Tensor</p>
@@ -107,20 +179,20 @@ of the Gaussian is set to one third of the radius.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="gnp.utils.subsample_points_by_radius">
-<span class="sig-prename descclassname"><span class="pre">gnp.utils.</span></span><span class="sig-name descname"><span class="pre">subsample_points_by_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LongTensor</span></span></span><a class="reference internal" href="_modules/gnp/utils.html#subsample_points_by_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.utils.subsample_points_by_radius" title="Link to this definition"></a></dt>
-<dd><p>Subsample points by radius. This is used in simulating mean curvature flow.</p>
+<span class="sig-prename descclassname"><span class="pre">gnp.utils.</span></span><span class="sig-name descname"><span class="pre">subsample_points_by_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/gnp/utils.html#subsample_points_by_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.utils.subsample_points_by_radius" title="Link to this definition"></a></dt>
+<dd><p>Subsample points using a parallel maximal independent set approach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>torch.Tensor</em>) -- Points to subsample</p></li>
-<li><p><strong>radius</strong> (<em>float</em>) -- Radius for subsampling</p></li>
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) -- The input points to subsample, shape (N, D).</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) -- The radius for defining neighborhoods.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Indices of subsampled points</p>
+<dd class="field-even"><p>A tensor containing the indices of the subsampled points.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.LongTensor</p>
+<dd class="field-odd"><p>torch.Tensor</p>
 </dd>
 </dl>
 </dd></dl>
@@ -138,7 +210,7 @@ of the Gaussian is set to one third of the radius.</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Blaine Quackenbush, Paul J. Atzberger.</p>
+    <p>&#169; Copyright 2026, Blaine Quackenbush, Paul J. Atzberger.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

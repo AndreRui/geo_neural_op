@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Geometric Neural Operator documentation &mdash; Geometric Neural Operator 0.0.1 documentation</title>
+  <title>Overview &mdash; Geometric Neural Operators (GNPs) 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0ea5f55c"></script>
+      <script src="_static/documentation_options.js?v=09236e2c"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -31,7 +31,7 @@
           
           
           <a href="#" class="icon icon-home">
-            Geometric Neural Operator
+            Geometric Neural Operators (GNPs)
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -57,7 +57,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Geometric Neural Operator</a>
+          <a href="#">Geometric Neural Operators (GNPs)</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -65,7 +65,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Geometric Neural Operator documentation</li>
+      <li class="breadcrumb-item active">Overview</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -75,28 +75,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="geometric-neural-operator-documentation">
-<h1>Geometric Neural Operator documentation<a class="headerlink" href="#geometric-neural-operator-documentation" title="Link to this heading"></a></h1>
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
 <a class="reference internal image-reference" href="_images/geo_neural_op_software.png"><img alt="_images/geo_neural_op_software.png" class="align-center" src="_images/geo_neural_op_software.png" style="width: 800px;" />
 </a>
-<p>Geometric Neural Operators (GNPs) allow for data-driven deep learning
-of features from point-cloud representations and other
-datasets for tasks involving geometry.   This includes training
-protocols and learned operators for estimating local curvatures,
-evaluating geometric differential operators, solvers for
-PDEs on manifolds, mean-curvature shape flows, and other tasks.
-The package provides practical neural network architectures and factorizations
-for training to accounting for geometric contributions and features.  The package also
-has a modular design allowing for use of GNPs within other data-processing pipelines.
-Pretrained models are also provided for estimating curvatures, Laplace-Beltrami operators,
-components for PDE solvers, and other geometric tasks.</p>
-<p>If you find these methods or codes helpful in your project, please cite:</p>
-<p>B. Quackenbush, P.J. Atzberger,  “Transferable Foundation Models for Geometric Tasks on
-Point Cloud Representations: Geometric Neural Operators,” arXiv, (2025),
-<a class="reference external" href="https://arxiv.org/abs/2503.04649">https://arxiv.org/abs/2503.04649</a>.</p>
-<p>B. Quackenbush, P.J. Atzberger,  “Geometric neural operators (gnps) for data-driven deep
-learning in non-euclidean settings,” Machine Learning: Science and Technology, 5(4), (2024),
-<a class="reference external" href="https://doi.org/10.1088/2632-2153/ad8980">https://doi.org/10.1088/2632-2153/ad8980</a>.</p>
+<p><strong>Overview:</strong> The <em>GeoNeuralOp</em> package provides methods
+for deep learning with point-cloud manifold representations. This includes
+geometric approaches for learning differential operators,
+extracting features, shape deformations, and
+other tasks.</p>
+<p><strong>Features:</strong></p>
+<ul class="simple">
+<li><p><strong>Curvature and Metric Estimators:</strong> Operator training methods for
+obtaining approximations of local
+curvatures, metrics, and geometric differential operators on
+point-clouds.</p></li>
+<li><p><strong>PDE Neural Solvers:</strong> Data-driven numerical methods for geometric PDEs
+on manifolds, such as Laplace-Beltrami and other problems.</p></li>
+<li><p><strong>Dynamic Shape Deformations:</strong> Shape evolution of point-clouds, such as
+mean-curvature driven-flows.</p></li>
+<li><p><strong>Transferable Pretrained Models:</strong> Provides weights for models for
+use in existing data processing pipelines for estimating local
+curvatures, Laplace-Beltrami operators, components for PDE solvers,
+and other geometric tasks.</p></li>
+</ul>
+<p>The package also includes variants of GNPs for efficient training
+based on factorizations and other protocols.  For more details
+and pretrained models see the papers and examples below.</p>
+<p><strong>Please cite for this package:</strong></p>
+<ul class="simple">
+<li><p><strong>Geometric neural operators (gnps) for data-driven deep learning in
+non-euclidean settings,</strong> B. Quackenbush, P.J. Atzberger,  Machine Learning:
+Science and Technology, 5(4), (2024),
+<a class="reference external" href="https://doi.org/10.1088/2632-2153/ad8980">https://doi.org/10.1088/2632-2153/ad8980</a>.</p></li>
+</ul>
+<p><strong>Additional papers:</strong></p>
+<ul class="simple">
+<li><p><strong>Transferable Foundation Models for Geometric Tasks on Point Cloud
+Representations: Geometric Neural Operators,</strong> B. Quackenbush, P.J. Atzberger,
+Machine Learning: Science and Technology, 6(4), (2025),
+<a class="reference external" href="https://doi.org/10.1088/2632-2153/ae1bf8">https://doi.org/10.1088/2632-2153/ae1bf8</a>.</p></li>
+<li><p><strong>Extending Neural Operators: Robust Handling of Functions Beyond the Training
+Set,</strong> B. Quackenbush, P.J. Atzberger,  Machine Learning: Science and
+Technology, 6(4), (2025),
+<a class="reference external" href="https://arxiv.org/abs/2603.03621">https://arxiv.org/abs/2603.03621</a>.</p></li>
+</ul>
+<p>For installation and examples, please see
+<a class="reference external" href="https://github.com/atzberg/geo_neural_op">https://github.com/atzberg/geo_neural_op</a>.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Package Reference:</span></p>
 <ul>
@@ -114,7 +139,7 @@ learning in non-euclidean settings,” Machine Learning: Science and Technology,
 <li><p><a class="reference external" href="https://github.com/atzberg/geo_neural_op">GitHub for Codes / Examples</a></p></li>
 </ul>
 <ul class="simple">
-<li><p><a class="reference external" href="https://atzberger.org">Atzberger Research Group</a></p></li>
+<li><p><a class="reference external" href="https://web.atzberger.org">Atzberger Research Group</a></p></li>
 </ul>
 </section>
 </section>
@@ -129,7 +154,7 @@ learning in non-euclidean settings,” Machine Learning: Science and Technology,
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Blaine Quackenbush, Paul J. Atzberger.</p>
+    <p>&#169; Copyright 2026, Blaine Quackenbush, Paul J. Atzberger.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

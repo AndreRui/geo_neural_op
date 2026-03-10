@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>gnp.models.gnp &mdash; Geometric Neural Operator 0.0.1 documentation</title>
+  <title>gnp.models.gnp &mdash; Geometric Neural Operators (GNPs) 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0ea5f55c"></script>
+      <script src="../../../_static/documentation_options.js?v=09236e2c"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -29,7 +29,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            Geometric Neural Operator
+            Geometric Neural Operators (GNPs)
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -55,7 +55,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">Geometric Neural Operator</a>
+          <a href="../../../index.html">Geometric Neural Operators (GNPs)</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -76,122 +76,209 @@
   <h1>Source code for gnp.models.gnp</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_geometric.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Data</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch_geometric.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">global_mean_pool</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlockConv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">layers</span> <span class="k">as</span> <span class="n">_layers</span>
 
-<div class="viewcode-block" id="BlockGNP">
-<a class="viewcode-back" href="../../../gnp.models.html#gnp.models.gnp.BlockGNP">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BlockGNP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GNP">
+<a class="viewcode-back" href="../../../gnp.models.html#gnp.models.gnp.GNP">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GNP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block Geometric Neural Operator</span>
+<span class="sd">    General purpose model for Geometric Neural Operators (GNPs).</span>
+
+<span class="sd">    This model consists of a lifting layer, multiple graph convolution blocks,</span>
+<span class="sd">    and a final projection layer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    node_dim : int</span>
-<span class="sd">        Dimension of the input node features.</span>
+<span class="sd">        Input dimension of node features.</span>
 <span class="sd">    edge_dim : int</span>
-<span class="sd">        Dimension of the input edge features.</span>
+<span class="sd">        Input dimension of edge features.</span>
 <span class="sd">    out_dim : int</span>
-<span class="sd">        Dimension of the output node features.</span>
-<span class="sd">    layers : list of int</span>
-<span class="sd">        List of integers representing the dimensions of the hidden layers.</span>
-<span class="sd">    num_channels : int</span>
-<span class="sd">        Number of blocks in the kernel factorization.</span>
-<span class="sd">    neurons : int</span>
-<span class="sd">        Number of neurons in the kernel MLP.</span>
+<span class="sd">        Output dimension.</span>
+<span class="sd">    layers : list[int]</span>
+<span class="sd">        List of hidden dimensions.</span>
+<span class="sd">    conv_name : str</span>
+<span class="sd">        Name of the convolution block class to use.</span>
+<span class="sd">    conv_args : dict</span>
+<span class="sd">        Arguments for the convolution block.</span>
 <span class="sd">    nonlinearity : str</span>
-<span class="sd">        Nonlinearity to use in the hidden layers.</span>
-<span class="sd">    device : torch.device</span>
-<span class="sd">        Device to run the model on.</span>
+<span class="sd">        The name of the activation function to use.</span>
+<span class="sd">    skip_connection: bool</span>
+<span class="sd">        Whether to use a skip connection for each layer.</span>
+<span class="sd">    device : str</span>
+<span class="sd">        The device to place the model on. Defaults to &quot;cuda&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">node_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">edge_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">out_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-                 <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">neurons</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">nonlinearity</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">device</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">node_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">edge_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">conv_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">conv_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">nonlinearity</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">skip_connection</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">device</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">layers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">edge_dim</span> <span class="o">=</span> <span class="n">edge_dim</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">out_dim</span> <span class="o">=</span> <span class="n">out_dim</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="n">num_channels</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">neurons</span> <span class="o">=</span> <span class="n">neurons</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nonlinearity</span> <span class="o">=</span> <span class="n">nonlinearity</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lift</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">node_dim</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">out_dim</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_in</span><span class="p">,</span> <span class="n">d_out</span><span class="p">)</span> <span class="k">if</span> <span class="n">d_in</span> <span class="o">!=</span> <span class="n">d_out</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
-                                <span class="k">for</span> <span class="n">d_in</span><span class="p">,</span> <span class="n">d_out</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">:])])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mixes</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_out</span><span class="p">,</span> <span class="n">d_out</span><span class="p">)</span> <span class="k">for</span> <span class="n">d_out</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">convs</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span><span class="n">BlockConv</span><span class="p">(</span><span class="n">edge_dim</span><span class="p">,</span>
-                                              <span class="n">d_in</span><span class="p">,</span>
-                                              <span class="n">d_out</span><span class="p">,</span>
-                                              <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span>
-                                              <span class="n">neurons</span><span class="p">,</span>
-                                              <span class="n">nonlinearity</span><span class="p">)</span> <span class="k">for</span> <span class="n">d_in</span><span class="p">,</span> <span class="n">d_out</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">:])])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">activ</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="p">)()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BlockGNP.forward">
-<a class="viewcode-back" href="../../../gnp.models.html#gnp.models.gnp.BlockGNP.forward">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">_layers</span><span class="o">.</span><span class="n">get_activation</span><span class="p">(</span><span class="n">nonlinearity</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_layers</span><span class="p">,</span> <span class="n">conv_name</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Convolution &#39;</span><span class="si">{</span><span class="n">conv_name</span><span class="si">}</span><span class="s2">&#39; not found in </span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">_layers</span><span class="o">.</span><span class="n">ConvolutionBlock</span><span class="p">(</span>
+                    <span class="n">in_dim</span><span class="o">=</span><span class="n">in_dim</span><span class="p">,</span>
+                    <span class="n">out_dim</span><span class="o">=</span><span class="n">out_dim</span><span class="p">,</span>
+                    <span class="n">edge_dim</span><span class="o">=</span><span class="n">edge_dim</span><span class="p">,</span>
+                    <span class="n">nonlinearity</span><span class="o">=</span><span class="n">nonlinearity</span><span class="p">,</span>
+                    <span class="n">conv_name</span><span class="o">=</span><span class="n">conv_name</span><span class="p">,</span>
+                    <span class="n">conv_args</span><span class="o">=</span><span class="n">conv_args</span><span class="p">,</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="n">skip_connection</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">in_dim</span><span class="p">,</span> <span class="n">out_dim</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="GNP.forward">
+<a class="viewcode-back" href="../../../gnp.models.html#gnp.models.gnp.GNP.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : Data</span>
+<span class="sd">            PyG Data object containing x, edge_index, and edge_attr.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        torch.Tensor</span>
+<span class="sd">            Output features.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_attr</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">):</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">)</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixes</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">z</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activ</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="n">edge_attr</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">](</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="n">edge_attr</span><span class="p">,</span> <span class="n">use_activation</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div>
 </div>
 
-    
+
+
 <div class="viewcode-block" id="PatchGNP">
 <a class="viewcode-back" href="../../../gnp.models.html#gnp.models.gnp.PatchGNP">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PatchGNP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Patch Geometric Neural Operator</span>
+<span class="sd">    Geometric Neural Operator for processing point cloud patches.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model : torch.nn.Module</span>
-<span class="sd">        Model to use for processing the input data.</span>
+<span class="sd">    node_dim : int</span>
+<span class="sd">        The dimensionality of the input node features (e.g., 3 for xyz).</span>
 <span class="sd">    out_dim : int</span>
-<span class="sd">        Dimension of the output basis.</span>
-<span class="sd">    device : torch.device</span>
-<span class="sd">        Device to run the model on.</span>
+<span class="sd">        The dimensionality of the final output vector for each patch.</span>
+<span class="sd">    layers : list[int]</span>
+<span class="sd">        A list of integers defining the width of each layer in the network.</span>
+<span class="sd">        The first element is the width after the initial lifting layer.</span>
+<span class="sd">    num_channels : int</span>
+<span class="sd">        The number of channels to use in the &#39;block&#39; type convolution.</span>
+<span class="sd">    neurons : int</span>
+<span class="sd">        The number of neurons in the hidden layers of the MLPs within the</span>
+<span class="sd">        convolutional layers.</span>
+<span class="sd">    nonlinearity : str</span>
+<span class="sd">        The name of the activation function to use.</span>
+<span class="sd">    device : str</span>
+<span class="sd">        The device to place the model on. Defaults to &quot;cuda&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-                 <span class="n">out_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">device</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">out_dim</span> <span class="o">=</span> <span class="n">out_dim</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">v_dim</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">out_dim</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nonlinearity</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">nonlinearity</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">activ</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonlinearity</span><span class="p">)()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v_dim</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">v_dim</span><span class="p">),</span>
-                                 <span class="bp">self</span><span class="o">.</span><span class="n">activ</span><span class="p">,</span>
-                                 <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">v_dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_dim</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">node_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">neurons</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">nonlinearity</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span> <span class="o">=</span> <span class="n">node_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_dim</span> <span class="o">=</span> <span class="n">out_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer_widths</span> <span class="o">=</span> <span class="n">layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span> <span class="o">=</span> <span class="n">num_channels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neurons</span> <span class="o">=</span> <span class="n">neurons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nonlinearity</span> <span class="o">=</span> <span class="n">nonlinearity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">_layers</span><span class="o">.</span><span class="n">get_activation</span><span class="p">(</span><span class="n">nonlinearity</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lift</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">node_dim</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">,</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">out_dim</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">convs</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">_layers</span><span class="o">.</span><span class="n">PatchSeparableBlockFactorizedConvolutionBlock</span><span class="p">(</span>
+                    <span class="n">in_dim</span><span class="o">=</span><span class="n">in_dim</span><span class="p">,</span>
+                    <span class="n">out_dim</span><span class="o">=</span><span class="n">out_dim</span><span class="p">,</span>
+                    <span class="n">dim_x</span><span class="o">=</span><span class="n">node_dim</span><span class="p">,</span>
+                    <span class="n">num_channels</span><span class="o">=</span><span class="n">num_channels</span><span class="p">,</span>
+                    <span class="n">neurons</span><span class="o">=</span><span class="n">neurons</span><span class="p">,</span>
+                    <span class="n">nonlinearity</span><span class="o">=</span><span class="n">nonlinearity</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">in_dim</span><span class="p">,</span> <span class="n">out_dim</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="PatchGNP.forward">
 <a class="viewcode-back" href="../../../gnp.models.html#gnp.models.gnp.PatchGNP.forward">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">global_mean_pool</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">mask</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">batch</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">mask</span><span class="p">])</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a forward pass on a batch of patches.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : torch.Tensor</span>
+<span class="sd">            Input coordinates/features (N, node_dim).</span>
+<span class="sd">        batch : torch.Tensor</span>
+<span class="sd">            Batch indices (N,).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        torch.Tensor</span>
+<span class="sd">            A tensor of shape (num_patches, out_dim) containing the output</span>
+<span class="sd">            vector for each patch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">conv</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">global_mean_pool</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
@@ -203,7 +290,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Blaine Quackenbush, Paul J. Atzberger.</p>
+    <p>&#169; Copyright 2026, Blaine Quackenbush, Paul J. Atzberger.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -7,20 +7,13 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   gnp.models
    gnp.dataset
    gnp.geometry
-   gnp.models
+   
 
 Submodules
 ----------
-
-gnp.config module
------------------
-
-.. automodule:: gnp.config
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 gnp.estimator module
 --------------------
@@ -34,6 +27,14 @@ gnp.utils module
 ----------------
 
 .. automodule:: gnp.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   
+gnp.config module
+-----------------
+
+.. automodule:: gnp.config
    :members:
    :undoc-members:
    :show-inheritance:

@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>config.py &mdash; Geometric Neural Operator 0.0.1 documentation</title>
+  <title>config.py &mdash; Geometric Neural Operators (GNPs) 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0ea5f55c"></script>
+      <script src="_static/documentation_options.js?v=09236e2c"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -31,7 +31,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            Geometric Neural Operator
+            Geometric Neural Operators (GNPs)
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -51,7 +51,6 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">config.py</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gnp.config.load_config"><code class="docutils literal notranslate"><span class="pre">load_config()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gnp.config.load_model"><code class="docutils literal notranslate"><span class="pre">load_model()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gnp.config.load_patchloader"><code class="docutils literal notranslate"><span class="pre">load_patchloader()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -62,7 +61,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Geometric Neural Operator</a>
+          <a href="index.html">Geometric Neural Operators (GNPs)</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -101,7 +100,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="gnp.config.load_model">
-<span class="sig-prename descclassname"><span class="pre">gnp.config.</span></span><span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="gnp.models.html#gnp.models.gnp.PatchGNP" title="gnp.models.gnp.PatchGNP"><span class="pre">PatchGNP</span></a></span></span><a class="reference internal" href="_modules/gnp/config.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.config.load_model" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">gnp.config.</span></span><span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="gnp.models.html#gnp.models.gnp.PatchGNP" title="gnp.models.gnp.PatchGNP"><span class="pre">PatchGNP</span></a></span></span><a class="reference internal" href="_modules/gnp/config.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.config.load_model" title="Link to this definition"></a></dt>
 <dd><p>Load a model from a directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -111,18 +110,7 @@
 <dd class="field-even"><p>The loaded model.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.nn.Module</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="gnp.config.load_patchloader">
-<span class="sig-prename descclassname"><span class="pre">gnp.config.</span></span><span class="sig-name descname"><span class="pre">load_patchloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="gnp.dataset.html#gnp.dataset.patch.PatchLoader" title="gnp.dataset.patch.PatchLoader"><span class="pre">PatchLoader</span></a></span></span><a class="reference internal" href="_modules/gnp/config.html#load_patchloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gnp.config.load_patchloader" title="Link to this definition"></a></dt>
-<dd><p>Load a PatchLoader using a yaml file in data_dir.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cfg</strong> (<em>dict</em>) -- Dictionary containing the configuration parameters.</p>
+<dd class="field-odd"><p><a class="reference internal" href="gnp.models.html#gnp.models.gnp.PatchGNP" title="gnp.models.gnp.PatchGNP">PatchGNP</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -139,7 +127,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Blaine Quackenbush, Paul J. Atzberger.</p>
+    <p>&#169; Copyright 2026, Blaine Quackenbush, Paul J. Atzberger.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
