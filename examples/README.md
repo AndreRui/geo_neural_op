@@ -1,5 +1,25 @@
 ### Examples
 ----
+GNP models can be instantiated using the ``GNP`` model class:
+```python
+from gnp.models import GNP
+
+full_model = GNP(
+    node_dim=3,
+    edge_dim=6,
+    out_dim=1,
+    layers=[64] * 10,
+    conv_name="GraphConvolution",
+    conv_args={"neurons": 128},
+    nonlinearity="ReLU",
+    skip_connection=True,
+    device="cuda",
+)
+
+```
+
+See how to load more variants of the ``GNP`` in our [Example Code](./models_01/models.ipynb)
+
 Pretrained models are loaded when instantiatiating the ```GeometryEstimator``` class. This can be used to gather geometric quantities and more by instantiating:
 ```python
 import numpy as np
@@ -9,7 +29,7 @@ pcd = torch.from_numpy(np.load('example_data/spot/xyz.npy'))
 orientation = torch.from_numpy(np.load('example_data/spot/normals.npy'))
 estimator = GeometryEstimator(pcd=pcd,
                               orientation=orientation,
-                              model='clean_30k')
+                              model_name='clean_30k')
 ```
 
 
@@ -32,10 +52,9 @@ See our [example code](./curvatures_01/curvatures.ipynb).
 A stiffness matrix for the Laplace-Beltrami equation $-\Delta_{\text{LB}} u = f$
 using Generalized Moving Least Squares (GMLS) can be constructed
 ```python
-stiffness_matrix = estimator.stiffness_matrix_gmls(drop_ratio=0.1,
-                                                   radius=1,
-                                                   p=4,
-                                                   remove_outliers=False)
+stiffness_matrix, collocation_mask, outlier_mask = estimator.stiffness_matrix_gmls(
+    drop_ratio=0.1, radius=1, p=4, remove_outliers=False
+)
 ```
 <p align="center">
 <br>
@@ -51,12 +70,14 @@ We use Scipy's LGMRES and PyAMG for preconditioning. See our collocation
 
 Mean curvature flows (MCF) can be simulated using 
 ```python
-flow_data = estimator_clean.mean_flow(num_steps=250, 
-                                      save_data_per_step=25,
-                                      delta_t=0.0002,
-                                      subsample_radius=0.005,
-                                      smooth_radius=0.06,
-                                      smooth_x=False)
+flow_data = estimator.mean_flow(
+    num_steps=250,
+    save_data_per_step=25,
+    delta_t=0.0002,
+    subsample_radius=0.005,
+    smooth_radius=0.06,
+    smooth_x=False,
+)
 ```
 
 <p align="center">
